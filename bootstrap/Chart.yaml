@@ -1,0 +1,6 @@
+apiVersion: v2
+name: bootstrap
+description: Helm chart for bootstrapping a K8s cluster using ArgoCD
+
+type: application
+version: 0.1.0

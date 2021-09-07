@@ -23,3 +23,27 @@ resource "google_container_node_pool" "this" {
     google_container_cluster.this
   ]
 }
+
+resource "google_container_node_pool" "this_ingress_node_pool" {
+  cluster = google_container_cluster.this.name
+
+  name = format("%s-ingress-node-pool", var.name)
+  node_count = 1
+
+  node_config {
+    preemptible = true
+    machine_type = "e2-micro"
+    disk_size_gb = 10
+    disk_type = "pd-standard"
+
+    taint {
+      effect = "NO_SCHEDULE"
+      key = "dedicated"
+      value = "ingress"
+    }
+  }
+
+  depends_on = [
+    google_container_cluster.this
+  ]
+}

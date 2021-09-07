@@ -1,0 +1,12 @@
+spec:
+  project: bootstrap
+  destination:
+    name: in-cluster
+  apps:
+    certManager:
+      enabled: true
+      version: v1.5.3
+      generateCert: true
+    ingressNginx:
+      enabled: true
+      version: 3.34.0

@@ -1,0 +1,76 @@
+{{- if .Values.spec.apps.certManager.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - Prune=true
+      - CreateNamespace=true
+  project: {{ .Values.spec.project }}
+  destination:
+    namespace: cert-manager
+    name: {{ .Values.spec.destination.name }}
+  source:
+    chart: cert-manager
+    helm:
+      version: v3
+      parameters:
+        - name: installCRDs
+          value: "true"
+      valueFiles:
+        - values.yaml
+    repoURL: https://charts.jetstack.io
+    targetRevision: {{ .Values.spec.apps.certManager.version }}
+{{- if .Values.spec.apps.certManager.generateCert }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-issuer
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - Prune=true
+      - CreateNamespace=true
+  project: {{ .Values.spec.project }}
+  destination:
+    namespace: cert-manager
+    name: {{ .Values.spec.destination.name }}
+  source:
+    chart: raw
+    helm:
+      values: |
+        resources:
+          - apiVersion: cert-manager.io/v1
+            kind: ClusterIssuer
+            metadata:
+              name: letsencrypt
+            spec:
+              acme:
+                email: williamparr96@gmail.com
+                server: https://acme-staging-v02.api.letsencrypt.org/directory
+                privateKeySecretRef:
+                  name: issuer-account-key
+                solvers:
+                - http01:
+                    ingress:
+                      class: nginx
+    repoURL: https://charts.helm.sh/incubator
+    targetRevision: 0.2.5
+{{ end }}
+{{ end }}
