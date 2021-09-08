@@ -1,12 +1,24 @@
+# -- Specification for bootstrap chart.
 spec:
+  # -- Project in which applications should be deployed in.
   project: bootstrap
+  # -- Destination settings for deployed applications.
   destination:
+    # -- Destination name for deployed applications.
     name: in-cluster
+  # -- Applications, and configuration, to be deployed.
   apps:
+    # -- Cert manager application for provisioning TLS Certs using ACME.
     certManager:
+      # -- Is cert manager enabled.
       enabled: true
+      # -- Cert manager chart version.
       version: v1.5.3
+      # -- Generate cluster issuer CRD for lets encrypt
       generateCert: true
+    # -- Ingress Nginx application for providing L7 ingress.
     ingressNginx:
+      # -- Is Ingress Nginx enabled.
       enabled: true
+      # -- Ingress Nginx chart version.
       version: 3.34.0
