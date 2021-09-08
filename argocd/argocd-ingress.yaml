@@ -11,7 +11,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   rules:
-    - host: argocd.willpxxr.com
+    - host: argocd.mgmt.willpxxr.com
       http:
         paths:
           - backend:
@@ -23,5 +23,5 @@ spec:
             pathType: ImplementationSpecific
   tls:
     - hosts:
-        - argocd.willpxxr.com
+        - argocd.mgmt.willpxxr.com
       secretName: argocd-cert
