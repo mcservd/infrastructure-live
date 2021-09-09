@@ -13,7 +13,7 @@ resource "google_container_node_pool" "this" {
 
   node_config {
     preemptible = true
-    machine_type = "e2-standard-2"
+    machine_type = "e2-standard-4"
     disk_size_gb = var.node_pool_disk_size
     // TODO: Hackuiri Daiquiri - No obvious way to perform mappings using TF yet...
     disk_type = var.node_pool_disk_type == "HHD" ? "pd-standard" : var.node_pool_disk_type == "SSD" ? "pd-ssd" : null
