@@ -32,8 +32,6 @@ spec:
           value: external-dns-secret
         - name: logLevel
           value: debug
-        - name: fqdnTemplates
-          value: {{.Name}}.svc.willpxxr.com
       valueFiles:
         - values.yaml
     repoURL: https://charts.bitnami.com/bitnami
