@@ -12,7 +12,7 @@ variable "node_pool_size" {
 
 variable "node_pool_disk_size" {
   type = number
-  default = 10
+  default = 20
   description = "The size of the disk attached to each Node Pool for storage"
 }
 
