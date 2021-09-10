@@ -1,0 +1,37 @@
+{{- if .Values.spec.apps.externalDns.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - Prune=true
+      - CreateNamespace=true
+  project: {{ .Values.spec.project }}
+  destination:
+    namespace: external-dns
+    name: {{ .Values.spec.destination.name }}
+  source:
+    chart:  external-dns
+    helm:
+      version: v3
+      parameters:
+        - name: provider
+          value: google
+        - name: google.project
+          value: {{ .Values.spec.apps.externalDns.google.project }}
+        - name: google.serviceAccountSecret
+          value: external-dns-secret
+      valueFiles:
+        - values.yaml
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: {{ .Values.spec.apps.externalDns.version }}
+{{ end }}
