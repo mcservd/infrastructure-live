@@ -1,3 +1,3 @@
 module "kubernetes-cluster" {
-  source = "./modules/generic/kubernetes-cluster"
+  source = "./modules/google/kubernetes-cluster"
 }
