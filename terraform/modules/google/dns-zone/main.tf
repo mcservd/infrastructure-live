@@ -7,17 +7,7 @@ resource "google_service_account" "this" {
   account_id = format("%s-sa" , var.name)
 }
 
-data "google_iam_policy" "this" {
-  binding {
-    members = [
-      format("serviceAccount:%s", google_service_account.this.email)
-    ]
-    role = "roles/dns.admin"
-  }
-}
-
-resource "google_service_account_iam_binding" "this" {
-  members = []
-  role = ""
-  service_account_id = ""
+resource "google_project_iam_member" "this" {
+  member = "serviceAccount:${google_service_account.this.email}"
+  role = "roles/dns.admin"
 }
