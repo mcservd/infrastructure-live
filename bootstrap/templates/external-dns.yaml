@@ -30,8 +30,6 @@ spec:
           value: {{ .Values.spec.apps.externalDns.google.project }}
         - name: google.serviceAccountSecret
           value: external-dns-secret
-        - name: logLevel
-          value: debug
       valueFiles:
         - values.yaml
     repoURL: https://charts.bitnami.com/bitnami
